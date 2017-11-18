@@ -1,29 +1,34 @@
-var ViewModal = function () {
-    this.cats = ko.observableArray([
-        {
-            name: "cat1"
-        },
-        {
-            name: "Tabby"
-        },
-        {
-            name: "cat3"
-        }
-        ]);
-
+var Cat = function() {
     this.clickCount = ko.observable(0);
     this.name = ko.observable('Tabby');
     this.imgSrc = ko.observable('img/434164568_fea0ad4013_z.jpg');
     this.imgAttribution = ko.observable('https://flikr.com/photos/big..');
 
-    this.level = ko.observable('Newborn');
+    this.nicknames = ko.observable(['Tabtab', 'T-B','Tobe']);
 
-    this.incrementCounter = function () {
-        this.clickCount(this.clickCount() + 1);
-        if (this.clickCount() === 10) {
-            this.level('Infant');
+    this.level = ko.computed(function () {
+        var level;
+        var clicks = this.clickCount();
+
+        if (clicks < 10){
+            level = 'Newborn';
+        } else if (clicks < 15) {
+            level = 'Infant';
+        } else if (clicks < 20) {
+            level = 'Child'
         }
+        return level;
+    }, this);
+
+};
+
+var ViewModal = function () {
+    this.currentCat = ko.observable(new Cat());
+    this.incrementCounter = function () {
+        this.currentCat().clickCount(this.currentCat().clickCount() + 1);
     }
 };
 
-ko.applyBindings(new ViewModal());
+ko.applyBindings(new ViewModal(
+
+));
