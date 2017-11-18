@@ -55,9 +55,13 @@ var ViewModal = function () {
     });
 
     self.currentCat = ko.observable( this.catList()[0]);
-    ;
+
     self.incrementCounter = function () {
         self.currentCat().clickCount(self.currentCat().clickCount() + 1);
+    };
+
+    self.setCat = function (clickedCat) {
+        self.currentCat(clickedCat);
     }
 };
 
